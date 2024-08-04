@@ -37,11 +37,11 @@ let SunoService = class SunoService {
         let payloadJson = {};
         const headers = { Authorization: `Bearer ${apiKey}` };
         if (action === 'LYRICS') {
-            url = `${proxyUrl}/task/suno/v1/submit/lyrics`;
+            url = `${proxyUrl}/suno/submit/lyrics`;
             payloadJson = { prompt: prompt };
         }
         if (action === 'MUSIC') {
-            url = `${proxyUrl}/task/suno/v1/submit/music`;
+            url = `${proxyUrl}/suno/submit/music`;
             try {
                 payloadJson = JSON.parse(taskData);
             }
@@ -158,7 +158,7 @@ let SunoService = class SunoService {
             answer: '',
         };
         const headers = { Authorization: `Bearer ${apiKey}` };
-        const url = `${proxyUrl}/task/suno/v1/fetch/${taskId}`;
+        const url = `${proxyUrl}/suno/fetch/${taskId}`;
         const startTime = Date.now();
         const POLL_INTERVAL = 5000;
         let retryCount = 0;
