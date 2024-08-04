@@ -35,7 +35,8 @@ let LumaVideoService = class LumaVideoService {
         let url = '';
         let payloadJson = {};
         const headers = { Authorization: `Bearer ${apiKey}` };
-        url = `${proxyUrl}/luma/generations/`;
+        // url = `${proxyUrl}/luma/generations/`;
+        url = `${proxyUrl}/v1/luma/generations/`;
         const aspectRatio = extraParam.size || '16:9';
         payloadJson = {
             user_prompt: prompt,
@@ -134,7 +135,8 @@ let LumaVideoService = class LumaVideoService {
             answer: '',
         };
         const headers = { Authorization: `Bearer ${apiKey}` };
-        const url = `${proxyUrl}/luma/generations/${taskId}`;
+        // const url = `${proxyUrl}/v1/luma/generations/${taskId}`;
+        const url = `${proxyUrl}/v1/luma/task/${taskId}`;
         const startTime = Date.now();
         const totalDuration = 300000;
         const POLL_INTERVAL = 5000;
