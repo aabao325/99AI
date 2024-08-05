@@ -285,7 +285,7 @@ let ChatService = class ChatService {
                 let firstChunk = true;
                 try {
                     if (useModel === 'dall-e-3' ||
-                        useModel === 'midjourney' ||
+                        useModel === 'mj' ||
                         useModel === 'suno' ||
                         useModel === 'luma' ||
                         useModel === 'stable-diffusion') {
