@@ -218,7 +218,7 @@ let ModelsService = class ModelsService {
     }
     async getMjInfo() {
         const modelInfo = await this.modelsEntity.findOne({
-            where: { model: 'midjourney' },
+            where: { model: 'mj-chat' },
         });
         if (modelInfo) {
             return {

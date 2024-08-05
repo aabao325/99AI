@@ -87,7 +87,7 @@ let ChatLogService = class ChatLogService {
             where.model = model;
         }
         else {
-            where.model = (0, typeorm_2.In)(['midjourney', 'dall-e-3', 'stable-diffusion']);
+            where.model = (0, typeorm_2.In)(['mj-chat', 'dall-e-3', 'stable-diffusion']);
         }
         const [rows, count] = await this.chatLogEntity.findAndCount({
             order: { id: 'DESC' },
@@ -107,7 +107,7 @@ let ChatLogService = class ChatLogService {
         });
         rows.forEach((r) => {
             var _a;
-            const w = r.model === 'midjourney' ? 310 : 160;
+            const w = r.model === 'mj-chat' ? 310 : 160;
             const imgType = r.answer.includes('cos') ? 'tencent' : 'ali';
             const compress = imgType === 'tencent'
                 ? `?imageView2/1/w/${w}/q/55`

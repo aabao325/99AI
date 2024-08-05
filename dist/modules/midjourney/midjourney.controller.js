@@ -198,7 +198,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MidjourneyController.prototype, "mjDraw", null);
 MidjourneyController = __decorate([
-    (0, common_1.Controller)('midjourney'),
+    (0, common_1.Controller)('mj-chat'),
     __metadata("design:paramtypes", [midjourney_service_1.MidjourneyService])
 ], MidjourneyController);
 exports.MidjourneyController = MidjourneyController;

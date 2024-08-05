@@ -91,6 +91,6 @@ __decorate([
     __metadata("design:type", Boolean)
 ], MidjourneyEntity.prototype, "isSaveImg", void 0);
 MidjourneyEntity = __decorate([
-    (0, typeorm_1.Entity)({ name: 'midjourney' })
+    (0, typeorm_1.Entity)({ name: 'mj-chat' })
 ], MidjourneyEntity);
 exports.MidjourneyEntity = MidjourneyEntity;

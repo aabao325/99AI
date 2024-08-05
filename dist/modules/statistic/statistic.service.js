@@ -127,7 +127,7 @@ let StatisticService = class StatisticService {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        const queryBuilder = this.midjourneyEntity.createQueryBuilder('midjourney');
+        const queryBuilder = this.midjourneyEntity.createQueryBuilder('mj-chat');
         const midjourneyCount = await queryBuilder
             .where('midjourney.createdAt >= :today', { today })
             .andWhere('midjourney.createdAt < :tomorrow', { tomorrow })
@@ -195,7 +195,7 @@ let StatisticService = class StatisticService {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const startDate = new Date(today.getTime() - (days - 1) * 24 * 60 * 60 * 1000);
-        const queryBuilder = this.midjourneyEntity.createQueryBuilder('midjourney');
+        const queryBuilder = this.midjourneyEntity.createQueryBuilder('mj-chat');
         const result = await queryBuilder
             .select(`DATE(midjourney.createdAt) as date, COUNT(*) as count`)
             .where(`midjourney.status = :status`, {

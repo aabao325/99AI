@@ -192,7 +192,7 @@ let ChatService = class ChatService {
         common_1.Logger.debug(`原始用户提问: ${prompt}, 是否翻译: ${isMjTranslate}, 翻译提示: ${mjTranslatePrompt}, 模型: ${model}, 是否文件上传: ${isFileUpload}, 文件信息: ${fileInfo}`);
         if (isMjTranslate === '1' &&
             action === 'IMAGINE' &&
-            model === 'midjourney') {
+            model === 'mj-chat') {
             const [beforeArgs, afterArgs] = prompt.split(/(?= --)/);
             const urlPattern = /(https?:\/\/[^\s]+)/g;
             const urls = beforeArgs.match(urlPattern) || [];
@@ -274,7 +274,7 @@ let ChatService = class ChatService {
             model: useModel,
             isFileUpload,
         }, this.chatLogService);
-        let charge = action !== 'UPSCALE' && useModel === 'midjourney' ? deduct * 4 : deduct;
+        let charge = action !== 'UPSCALE' && useModel === 'mj-chat' ? deduct * 4 : deduct;
         const abortController = new AbortController();
         try {
             if (res) {
