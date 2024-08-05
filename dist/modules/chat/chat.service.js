@@ -286,8 +286,8 @@ let ChatService = class ChatService {
                 try {
                     if (useModel === 'dall-e-3' ||
                         useModel === 'midjourney' ||
-                        useModel === 'suno-v3' ||
-                        useModel === 'luma-video' ||
+                        useModel === 'suno' ||
+                        useModel === 'luma' ||
                         useModel === 'stable-diffusion') {
                         if (useModel === 'dall-e-3') {
                             response = this.openAIDrawService.dalleDraw({
@@ -318,7 +318,7 @@ let ChatService = class ChatService {
                                 answer: '绘制中',
                             });
                         }
-                        else if (useModel === 'suno-v3') {
+                        else if (useModel === 'suno') {
                             response = this.sunoService.suno({
                                 assistantLogId,
                                 apiKey: modelKey,
@@ -332,7 +332,7 @@ let ChatService = class ChatService {
                                 answer: '提交成功，歌曲生成中',
                             });
                         }
-                        else if (useModel === 'luma-video') {
+                        else if (useModel === 'luma') {
                             response = this.lumaVideoService.lumaVideo({
                                 fileInfo,
                                 extraParam,
