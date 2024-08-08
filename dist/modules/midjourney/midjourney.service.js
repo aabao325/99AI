@@ -85,7 +85,7 @@ let MidjourneyService = class MidjourneyService {
                 common_1.Logger.error('Error in other draw operation:', error);
             });
         }
-        common_1.Logger.log(`执行预扣费，扣除费用:${action === 'UPSCALE' ? deduct : deduct * 4}积分。`, 'MidjourneyService');
+        common_1.Logger.log(`执行预扣费，扣除费用:${action === 'UPSCALE' ? deduct : deduct * 1}积分。`, 'MidjourneyService');
         await this.userBalanceService.deductFromBalance(req.user.id, deductType, action === 'UPSCALE' ? deduct : deduct * 1);
         return true;
     }
@@ -155,10 +155,10 @@ let MidjourneyService = class MidjourneyService {
                 const parsedUrl = new URL(imageUrl);
                 parsedUrl.protocol = newUrlBase.protocol;
                 parsedUrl.hostname = newUrlBase.hostname;
-                // 确保newUrlBase的路径以斜杠结尾
-                if (!newUrlBase.pathname.endsWith('/')) {
-                    newUrlBase.pathname += '/';
-                }
+                // // 确保newUrlBase的路径以斜杠结尾
+                // if (!newUrlBase.pathname.endsWith('/')) {
+                //     newUrlBase.pathname += '/';
+                // }
                 // 拼接路径
                 parsedUrl.pathname = newUrlBase.pathname + parsedUrl.pathname;
                 parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
