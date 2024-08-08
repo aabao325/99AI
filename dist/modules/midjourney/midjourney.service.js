@@ -151,11 +151,12 @@ let MidjourneyService = class MidjourneyService {
             const shouldReplaceUrl = mjNotUseProxy === '0' && mjProxyImgUrl;
             let logMessage = '';
             if (shouldReplaceUrl) {
-                const newUrlBase = new URL(mjProxyImgUrl);
+                // const newUrlBase = new URL(mjProxyImgUrl);
+                const newUrlBase = mjProxyImgUrl;
                 const parsedUrl = new URL(imageUrl);
-                parsedUrl.protocol = newUrlBase.protocol;
-                parsedUrl.hostname = newUrlBase.hostname;
-                parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
+                // parsedUrl.protocol = newUrlBase.protocol;
+                parsedUrl.hostname = newUrlBase;
+                // parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
                 processedUrl = parsedUrl.toString();
                 logMessage = `使用代理替换后的 URL: ${processedUrl}`;
                 common_1.Logger.log(logMessage, 'MidjourneyService');
