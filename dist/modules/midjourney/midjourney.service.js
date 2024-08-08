@@ -155,11 +155,6 @@ let MidjourneyService = class MidjourneyService {
                 const parsedUrl = new URL(imageUrl);
                 parsedUrl.protocol = newUrlBase.protocol;
                 parsedUrl.hostname = newUrlBase.hostname;
-                // // 确保newUrlBase的路径以斜杠结尾
-                // if (!newUrlBase.pathname.endsWith('/')) {
-                //     newUrlBase.pathname += '/';
-                // }
-                // 拼接路径
                 parsedUrl.pathname = newUrlBase.pathname + parsedUrl.pathname;
                 parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
                 processedUrl = parsedUrl.toString();

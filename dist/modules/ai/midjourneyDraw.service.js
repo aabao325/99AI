@@ -169,6 +169,7 @@ let MidjourneyService = class MidjourneyService {
                             const parsedUrl = new URL(responses.imageUrl);
                             parsedUrl.protocol = newUrlBase.protocol;
                             parsedUrl.hostname = newUrlBase.hostname;
+                            parsedUrl.pathname = newUrlBase.pathname + parsedUrl.pathname;
                             parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
                             processedUrl = parsedUrl.toString();
                             logMessage = `使用代理替换后的 URL: ${processedUrl}`;
