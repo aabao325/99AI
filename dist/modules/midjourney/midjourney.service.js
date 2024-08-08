@@ -51,7 +51,7 @@ let MidjourneyService = class MidjourneyService {
         await this.checkLimit(req);
         const modelInfo = await this.modelsService.getCurrentModelKeyInfo('midjourney');
         const { deduct, deductType, proxyUrl, timeout } = modelInfo;
-        await this.userBalanceService.validateBalance(req, deductType, action === 'UPSCALE' ? deduct : deduct * 4);
+        await this.userBalanceService.validateBalance(req, deductType, action === 'UPSCALE' ? deduct : deduct * 1);
         const params = Object.assign(Object.assign({}, body), { userId: req.user.id });
         const drawInfo = await this.addDrawQueue(params);
         if (action === 'IMAGINE') {
@@ -86,7 +86,7 @@ let MidjourneyService = class MidjourneyService {
             });
         }
         common_1.Logger.log(`执行预扣费，扣除费用:${action === 'UPSCALE' ? deduct : deduct * 4}积分。`, 'MidjourneyService');
-        await this.userBalanceService.deductFromBalance(req.user.id, deductType, action === 'UPSCALE' ? deduct : deduct * 4);
+        await this.userBalanceService.deductFromBalance(req.user.id, deductType, action === 'UPSCALE' ? deduct : deduct * 1);
         return true;
     }
     async sleep(time) {
@@ -151,12 +151,17 @@ let MidjourneyService = class MidjourneyService {
             const shouldReplaceUrl = mjNotUseProxy === '0' && mjProxyImgUrl;
             let logMessage = '';
             if (shouldReplaceUrl) {
-                // const newUrlBase = new URL(mjProxyImgUrl);
-                const newUrlBase = mjProxyImgUrl;
+                const newUrlBase = new URL(mjProxyImgUrl);
                 const parsedUrl = new URL(imageUrl);
-                // parsedUrl.protocol = newUrlBase.protocol;
-                parsedUrl.hostname = newUrlBase;
-                // parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
+                parsedUrl.protocol = newUrlBase.protocol;
+                parsedUrl.hostname = newUrlBase.hostname;
+                // 确保newUrlBase的路径以斜杠结尾
+                if (!newUrlBase.pathname.endsWith('/')) {
+                    newUrlBase.pathname += '/';
+                }
+                // 拼接路径
+                parsedUrl.pathname = newUrlBase.pathname + parsedUrl.pathname;
+                parsedUrl.port = newUrlBase.port ? newUrlBase.port : '';
                 processedUrl = parsedUrl.toString();
                 logMessage = `使用代理替换后的 URL: ${processedUrl}`;
                 common_1.Logger.log(logMessage, 'MidjourneyService');
