@@ -274,7 +274,7 @@ let ChatService = class ChatService {
             model: useModel,
             isFileUpload,
         }, this.chatLogService);
-        let charge = action !== 'UPSCALE' && useModel === 'midjourney' ? deduct * 4 : deduct;
+        let charge = action !== 'UPSCALE' && useModel === 'midjourney' ? deduct * 1 : deduct;
         const abortController = new AbortController();
         try {
             if (res) {
