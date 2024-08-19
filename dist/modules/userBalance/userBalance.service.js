@@ -257,6 +257,13 @@ let UserBalanceService = class UserBalanceService {
         if (!b) {
             throw new common_1.HttpException('缺失当前用户账户记录！', common_1.HttpStatus.BAD_REQUEST);
         }
+        // 检查会员状态和到期时间
+        const now = new Date();
+        if (b.packageId && b.expirationTime && new Date(b.expirationTime) > now) {
+            // 用户是会员且会员未到期，不扣积分，直接返回
+            return;
+        }
+        
         const keys = {
             1: {
                 member: 'memberModel3Count',
