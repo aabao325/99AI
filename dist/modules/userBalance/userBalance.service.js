@@ -268,8 +268,8 @@ let UserBalanceService = class UserBalanceService {
             // 用户是会员且会员未到期，不扣积分，直接返回
             const expirationDate = new Date(b.expirationTime).toLocaleDateString(); // 格式化为年月日
             console.log(`会员用户对话，用户ID: ${userId}, 用户名: ${username}，会员有效期：${expirationDate}`);
-            // 返回提示信息
-            return { type: "success", message: "订阅会员畅享不限量免扣积分" };
+            // 返回
+            // return
         }
         
         const keys = {
