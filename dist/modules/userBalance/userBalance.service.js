@@ -269,7 +269,7 @@ let UserBalanceService = class UserBalanceService {
             const expirationDate = new Date(b.expirationTime).toLocaleDateString(); // 格式化为年月日
             console.log(`会员用户对话，用户ID: ${userId}, 用户名: ${username}，会员有效期：${expirationDate}`);
             // 返回
-            // return
+            return
         }
         
         const keys = {
