@@ -261,15 +261,15 @@ let UserBalanceService = class UserBalanceService {
         if (!user) {
             throw new common_1.HttpException('用户不存在！', common_1.HttpStatus.BAD_REQUEST);
         }
-        const username = user.username || '未知用户';
+
         // 检查会员状态和到期时间
         const now = new Date();
-        if (b.packageId && b.expirationTime && new Date(b.expirationTime) > now) {
-            // 用户是会员且会员未到期，不扣积分，直接返回
-            const expirationDate = new Date(b.expirationTime).toLocaleDateString(); // 格式化为年月日
-            console.log(`会员用户对话，用户ID: ${userId}, 用户名: ${username}，会员有效期：${expirationDate}`);
-            // 返回
-            return
+        const isMemberActive = b.packageId && b.expirationTime && new Date(b.expirationTime) > now;
+
+        // 如果是会员且会员未到期，则不扣除model3Count和model4Count
+        if (isMemberActive && (deductionType === 1 || deductionType === 2)) {
+            console.log(`会员用户对话，用户ID: ${userId}，用户名: ${user.username || '未知用户'}，会员有效期未到期，不扣积分。`);
+            return;  // 直接返回，不进行扣除
         }
         
         const keys = {
