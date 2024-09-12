@@ -252,6 +252,7 @@ let UserBalanceService = class UserBalanceService {
         const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         return date >= todayStart;
     }
+
     async deductFromBalance(userId, deductionType, amount, UseAmount = 0) {
         const b = await this.userBalanceEntity.findOne({ where: { userId } });
         if (!b) {
@@ -262,56 +263,48 @@ let UserBalanceService = class UserBalanceService {
             throw new common_1.HttpException('用户不存在！', common_1.HttpStatus.BAD_REQUEST);
         }
 
-        // 检查会员状态和到期时间
-        const now = new Date();
-        const isMemberActive = b.packageId && b.expirationTime && new Date(b.expirationTime) > now;
-
-        // 如果是会员且会员未到期，则不扣除model3Count和model4Count
-        if (isMemberActive && (deductionType === 1 || deductionType === 2)) {
-            console.log(`会员用户对话，用户ID: ${userId}，用户名: ${user.username || '未知用户'}，会员有效期未到期，不扣积分。`);
-            return;  // 直接返回，不进行扣除
-        }
-        
         const keys = {
-            1: {
-                member: 'memberModel3Count',
-                nonMember: 'model3Count',
-                token: 'useModel3Token',
-            },
-            2: {
-                member: 'memberModel4Count',
-                nonMember: 'model4Count',
-                token: 'useModel4Token',
-            },
-            3: {
-                member: 'memberDrawMjCount',
-                nonMember: 'drawMjCount',
-                token: 'useDrawMjToken',
-            },
+            1: { member: 'memberModel3Count', nonMember: 'model3Count', token: 'useModel3Token' },
+            2: { member: 'memberModel4Count', nonMember: 'model4Count', token: 'useModel4Token' },
+            3: { member: 'memberDrawMjCount', nonMember: 'drawMjCount', token: 'useDrawMjToken' },
         };
+
         const { member, nonMember, token } = keys[deductionType];
         let remainingAmount = amount;
         let newMemberBalance = Math.max(b[member] - remainingAmount, 0);
         remainingAmount -= b[member] - newMemberBalance;
         let newNonMemberBalance = b[nonMember];
+
         if (remainingAmount > 0) {
             newNonMemberBalance = Math.max(b[nonMember] - remainingAmount, 0);
             remainingAmount -= b[nonMember] - newNonMemberBalance;
         }
+
+        // 在计算所有需要的扣费后检查会员状态
+        const now = new Date();
+        const isMemberActive = b.packageId && b.expirationTime && new Date(b.expirationTime) > now;
+
+        if (isMemberActive && (deductionType === 1 || deductionType === 2)) {
+            console.log(`会员用户对话，用户ID: ${userId}，用户名: ${user.username || '未知用户'}，会员有效期未到期，不扣积分。`);
+            return;
+        }
+
         const updateBalance = {
             [member]: newMemberBalance,
             [nonMember]: newNonMemberBalance,
             [token]: (b[token] || 0) + UseAmount,
         };
+
         if (token === 'useModel3Token' || token === 'useModel4Token') {
-            updateBalance[token.replace('Token', 'Count')] =
-                (b[token.replace('Token', 'Count')] || 0) + amount;
+            updateBalance[token.replace('Token', 'Count')] = (b[token.replace('Token', 'Count')] || 0) + amount;
         }
+
         const result = await this.userBalanceEntity.update({ userId }, updateBalance);
         if (result.affected === 0) {
             throw new common_1.HttpException('消费余额失败！', common_1.HttpStatus.BAD_REQUEST);
         }
     }
+
     async queryUserBalance(userId) {
         try {
             const res = await this.userBalanceEntity.findOne({
